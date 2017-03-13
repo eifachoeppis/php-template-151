@@ -9,12 +9,8 @@ switch($_SERVER["REQUEST_URI"]) {
 	case "/":
 		(new ihrname\Controller\IndexController($tmpl))->homepage();
 		break;
-	case "/test/upload":
-		if(file_put_contents(__DIR__ . "/../../upload/test.txt", "Mein erster Upload")) {
-			echo "It worked";
-		} else {
-			echo "Error happened";
-		}
+	case "/testroute":
+		echo "Test";
 		break;
 	default:
 		$matches = [];
