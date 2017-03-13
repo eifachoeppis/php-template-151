@@ -1,0 +1,12 @@
+<!Doctype>
+<html>
+	<head>
+		<title>Index</title>
+	</head>
+	<body>
+		<h1>slködj</h1>
+		<p>
+			slökgjaijgaogesa
+		</p>
+	</body>
+</html>

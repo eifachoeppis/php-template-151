@@ -4,7 +4,7 @@ namespace eifachoeppis\Controller;
 
 use eifachoeppis\SimpleTemplateEngine;
 
-class IndexController 
+class LoginController 
 {
   /**
    * @var ihrname\SimpleTemplateEngine Template engines to render output
@@ -18,12 +18,9 @@ class IndexController
   {
      $this->template = $template;
   }
-
-  public function homepage() {
-    echo $this->template->render("index.html.php");
+  
+  public function showLogin(){
+  	echo $this->template->render("login.html.php");
   }
 
-  public function greet($name) {
-  	echo $this->template->render("hello.html.php", ["name" => $name]);
-  }
 }
