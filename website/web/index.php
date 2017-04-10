@@ -10,6 +10,12 @@ $factory = new eifachoeppis\Factory($config);
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
 		$factory->getIndexController()->homepage();
+		$factory->getMailer()->send(
+				Swift_Message::newInstance("Title")
+				->setFrom(["gibz.module.151@gmail.com" => "M151 Website"])
+				->setTo(["hamburg56@hotmail.com" => "hi"])
+				->setBody("Here is the message itself")
+				);
 		break;
 	case "/login":
 		$ctr = $factory->getLoginController();
