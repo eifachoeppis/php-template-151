@@ -4,9 +4,9 @@
 		<title>Index</title>
 	</head>
 	<body>
-		<h1>slködj</h1>
+		<h1>Hello</h1>
 		<p>
-			slökgjaijgaogesa
+			<?= (array_key_exists("email", $_SESSION)) ? $_SESSION["email"] : "" ?>
 		</p>
 	</body>
 </html>

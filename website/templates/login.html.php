@@ -11,7 +11,7 @@
 		<div>
 			<label>
 				E-Mail:
-				<input type="email" name="email" />
+				<input type="email" name="email" value="<?= (isset($email)) ? $email : "" ?> " required />
 			</label>
 		</div>
 		<div>

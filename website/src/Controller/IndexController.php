@@ -26,4 +26,5 @@ class IndexController
   public function greet($name) {
   	echo $this->template->render("hello.html.php", ["name" => $name]);
   }
+ 
 }
