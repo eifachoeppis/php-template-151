@@ -1,16 +1,11 @@
 <?php
 
-use eifachoeppis\Controller\LoginController;
-use eifachoeppis\Service\LoginMySqlService;
-
 error_reporting(E_ALL);
 session_start();
 
 require_once("../vendor/autoload.php");
-$factory = new eifachoeppis\Factory();
-$tmpl = $factory->getTemplateEngine();
-$pdo = $factory->getPdo();
-$loginService = $factory->getLoginService();
+$config = parse_ini_file(__DIR__. "/../config.ini", true);
+$factory = new eifachoeppis\Factory($config);
 
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":

@@ -3,6 +3,12 @@
 	
 	class Factory{
 		
+		private $config;
+		
+		public function __construct(array $config){
+			$this->config = $config;
+		}
+		
 		public function getIndexController(){
 			return new Controller\IndexController($this->getTemplateEngine());
 		}
@@ -17,9 +23,9 @@
 		
 		public function getPdo(){
 			return new \PDO(
-					"mysql:host=mariadb;dbname=app;charset=utf8",
-					"root",
-					"my-secret-pw",
+					"mysql:host=". $this->config["database"]["host"] .";dbname=app;charset=utf8",
+					$this->config["database"]["user"],
+					$this->config["database"]["password"],
 					[\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]
 					);
 		}
