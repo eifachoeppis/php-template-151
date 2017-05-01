@@ -10,7 +10,7 @@
 		}
 		
 		public function getIndexController(){
-			return new Controller\IndexController($this->getTemplateEngine());
+			return new Controller\IndexController($this->getTwigEngine());
 		}
 		
 		public function getLoginController(){
@@ -19,6 +19,12 @@
 		
 		public function getTemplateEngine(){
 			return new SimpleTemplateEngine(__DIR__ . "/../templates/");
+		}
+		
+		public function getTwigEngine(){
+			$loader = new \Twig_Loader_Filesystem(__DIR__ . "/../templates/");
+			$twig = new \Twig_Environment($loader);
+			return $twig;
 		}
 		
 		public function getMailer(){
