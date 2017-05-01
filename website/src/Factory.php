@@ -23,9 +23,12 @@
 		
 		public function getMailer(){
 			return \Swift_Mailer::newInstance(
-					\Swift_SmtpTransport::newInstance("smtp.gmail.com", 465, "ssl")
-					->setUsername("gibz.module.151@gmail.com")
-					->setPassword("Pe$6A+aprunu")
+					\Swift_SmtpTransport::newInstance(
+							$this->config["email"]["host"],
+							$this->config["email"]["port"],
+							$this->config["email"]["security"])
+					->setUsername($this->config["email"]["user"])
+					->setPassword($this->config["email"]["password"])
 					);
 		}
 		
