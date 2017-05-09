@@ -15,12 +15,11 @@ class LoginMySqlService implements LoginService{
 	}
 	
 	public function authenticate($username, $password){
-		$statement = $this->pdo->prepare("SELECT * FROM user WHERE email=? AND password=?");
+		$statement = $this->pdo->prepare("SELECT * FROM user WHERE email=?");
 		$statement->bindValue(1, $username);
-		$statement->bindValue(2, $password);
 		$statement->execute();
-		 
-		return $statement->rowCount() == 1;
+		
+		return password_verify($password, $statement->fetchObject()->password);
 	}
 }
 

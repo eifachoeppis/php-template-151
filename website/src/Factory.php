@@ -17,6 +17,14 @@
 			return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService());
 		}
 		
+		public function getRegisterController(){
+			return new Controller\RegisterController($this->getTwigEngine(), $this->getRegisterService());
+		}
+		
+		public function getUploadController(){
+			return new Controller\UploadController($this->getTwigEngine());
+		}
+		
 		public function getTemplateEngine(){
 			return new SimpleTemplateEngine(__DIR__ . "/../templates/");
 		}
@@ -49,5 +57,9 @@
 		
 		public function getLoginService(){
 			return new Service\LoginMySqlService($this->getPdo());
+		}
+		
+		public function getRegisterService(){
+			return new Service\RegisterMySqlService($this->getPdo());	
 		}
 	}
