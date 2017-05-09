@@ -1,0 +1,227 @@
+/* Import Font ****************************************************************************************************/
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,700,700i');
+
+/* General ********************************************************************************************************/
+*{
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/* Page ***********************************************************************************************************/
+body{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	font-weight: 300;
+	color: black;
+	margin: 0;
+	padding: 0;
+}
+
+content{
+	margin: 0 auto;
+	background-color: red;
+}
+
+/* Logo **********************************************************************************************************/
+#logo{
+	position: fixed;
+	top: 0px;
+	left: 20px;
+	font-size: 1.6em;
+	color: white;
+	width: 20%;
+	padding-top: 0.2em;
+}
+
+#logo a{
+	text-decoration: none;
+	color: white;
+}
+
+#logo a:visited{
+	color: white;
+}
+
+.rightnav{
+	float: right;
+}
+
+
+/* Navigation ****************************************************************************************************/
+nav{
+	background-color: rgba(0, 115, 230, 0.8);
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	font-weight: 700;
+}
+
+nav::after{
+	content:'';
+	display: block;
+	clear: both;
+}
+
+nav ul{
+	width: 60%;
+	list-style: none;
+	margin: 0 auto;
+	padding: 0;
+}
+
+nav ul::after{
+	content:'';
+	display: block;
+	clear: both;
+}
+
+nav ul li:hover{
+	/* background-color: #2b0306; */
+}
+
+nav ul li:hover > ul {
+	display:block;
+}
+
+nav ul li a{
+	display: inline-block;
+	color: #fff;
+	padding: 10px 20px;
+	text-decoration: none;
+	width: 125px;
+	position: relative;
+}
+
+nav ul li a:visited{
+	color: #fff;
+}
+
+nav ul li a:hover{
+	background-color: #999999;
+	color: white;
+}
+
+nav ul ul{
+	position: absolute;
+	top: 100%;
+	background-color: #2b0306;
+	display: none;
+}
+
+
+nav ul ul li{
+	position: relative;
+}
+
+nav ul ul ul{
+	left: 100%;
+	top: 0px;
+}
+
+nav > ul{
+	padding: 0px 200px;
+}
+
+nav > ul > li{
+	float: left;
+}
+
+nav > ul > li > a{
+	width: auto;
+	padding: 10px 20px 15px 20px;
+}
+
+/* Main ****************************************************************************************************/
+main{
+	margin: 5em auto;
+	width: 60%;
+	min-height: 500px;
+}
+
+main img{
+	width: 32%;
+}
+
+main form{
+	width: 60%;
+	margin: 0 auto;
+}
+
+main form input{
+	margin-top: 1em;
+}
+
+main form input[type=text], main form input[type=password] {
+	padding-left: 0.2em;
+}
+
+main form input[type=submit]{
+	width: 100px;
+}
+
+
+
+/* Footer *************************************************************************************************/
+footer{
+	border-top: 2px solid #CCCCCC;
+	width: 100%;
+}
+footer p{
+	margin: 0 auto 20px auto;
+	width: 60%;
+	font-size: 0.8em;
+}
+
+/* Screens *******************************************************************************************/
+@media (max-width: 1200px){
+	main{
+		width: 96%;
+	}
+	footer p{
+		width: 96%;
+	}
+}
+
+@media (max-width: 660px){
+	main{
+		font-size: 0.8em;
+	}
+	main form{
+		width: 100%;
+	}
+	main form input{
+		width: 100%;
+		font-size: 2em;
+	}
+	nav{
+		position: relative;
+	}
+
+	main{
+		margin-top: 1em;
+	}
+	main img{
+		width: 100%;
+	}
+	#logo{
+		display: none;
+	}
+	
+	nav > ul > li{
+		width: 100%;
+	}
+	
+	nav > ul > li > a{
+		border-bottom: 1px solid white;
+		width: 100%;
+	}
+
+	nav > ul{
+		width: 100%;
+		padding: 0;
+	}
+}
+
+

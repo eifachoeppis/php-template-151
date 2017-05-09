@@ -17,14 +17,14 @@ class LoginController
    * @param ihrname\SimpleTemplateEngine
    * @param \PDO
    */
-  public function __construct(SimpleTemplateEngine $template, LoginService $LoginService)
+  public function __construct(\Twig_Environment $template, LoginService $LoginService)
   {
      $this->template = $template;
      $this->loginService = $LoginService;
   }
   
   public function showLogin(){
-  	echo $this->template->render("login.html.php");
+  	echo $this->template->render("login.html.twig");
   }
   
   public function login(array $data){
@@ -39,7 +39,7 @@ class LoginController
   		$_SESSION["email"] = $data["email"];
   		header("Location: /");
   	}else{
-  		echo $this->template->render("login.html.php", ["email" => $data["email"]]);
+  		echo $this->template->render("login.html.twig", ["email" => $data["email"]]);
   	}
   }  
 }

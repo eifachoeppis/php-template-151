@@ -1,19 +1,40 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-    <head>
-        {% block head %}
-            <link rel="stylesheet" href="style.css" />
-            <title>{% block title %}{% endblock %} - My Webpage</title>
-        {% endblock %}
-    </head>
-    <body>
-        <div id="content">
-        {% block content %}{% endblock %}
-        </div>
-        <div id="footer">
-            {% block footer %}
-                &copy; Copyright 2011 by <a href="http://domain.invalid/">you</a>.
-            {% endblock %}
-        </div>
-    </body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="/style.css">
+		<title>Layout</title>
+	</head>
+	<body>
+	<content>
+		<nav>
+			<div id="logo">
+			<a href="/" title="Home">Photogallery</a>
+			</div>
+			<ul>
+				<li>
+					<a href="#" title="Images">Images</a>
+				</li>
+				<li>
+					<a href="#" title="Upload">Upload</a>
+				</li>
+				<li class="rightnav">
+					<a href="/register" title="Register">Register</a>
+				</li>
+				<li class="rightnav">
+					<a href="/login" title="Login">Login</a>
+				</li>
+			</ul>
+		</nav>
+		<main>
+			{% block main %}{% endblock %}
+		</main>
+		<footer>
+			<p>
+				&copy; Lukas Huber
+			</p>
+		</footer>
+	</content>
+	</body>
 </html>

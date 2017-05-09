@@ -14,7 +14,7 @@
 		}
 		
 		public function getLoginController(){
-			return new Controller\LoginController($this->getTemplateEngine(), $this->getLoginService());
+			return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService());
 		}
 		
 		public function getTemplateEngine(){
