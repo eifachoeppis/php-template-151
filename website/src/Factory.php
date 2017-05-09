@@ -21,8 +21,8 @@
 			return new Controller\RegisterController($this->getTwigEngine(), $this->getRegisterService());
 		}
 		
-		public function getUploadController(){
-			return new Controller\UploadController($this->getTwigEngine());
+		public function getFileController(){
+			return new Controller\FileController($this->getTwigEngine(), $this->getFileService());
 		}
 		
 		public function getTemplateEngine(){
@@ -61,5 +61,9 @@
 		
 		public function getRegisterService(){
 			return new Service\RegisterMySqlService($this->getPdo());	
+		}
+		
+		public function getFileService(){
+			return new Service\FileMySqlService($this->getPdo());
 		}
 	}

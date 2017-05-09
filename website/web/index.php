@@ -34,12 +34,15 @@ switch($_SERVER["REQUEST_URI"]) {
 		}
 		break;
 	case "/upload":
-		$ctr = $factory->getUploadController();
+		$ctr = $factory->getFileController();
 		if ($_SERVER["REQUEST_METHOD"] == "GET"){
 			$ctr->showUpload();
 		}else{
-			$ctr->upload();
+			$ctr->upload($_FILES);
 		}
+		break;
+	case "/images":
+		$factory->getFileController()->showFiles();
 		break;
 	default:
 		$matches = [];
