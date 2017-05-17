@@ -24,6 +24,8 @@ class FileController
   public function showUpload() {
     echo $this->template->render("upload.html.twig");
   }
+  
+  
 
   public function upload($data) {
   	$fileName = $data['fileToUpload']['name'];
@@ -31,22 +33,25 @@ class FileController
   	$fileSize = $data['fileToUpload']['size'];
   	$fileTmpName = $data['fileToUpload']['tmp_name'];
   	
-  	if(!get_magic_quotes_gpc())
-  	{
-  		$fileName = addslashes($fileName);
+  	//Überprüfen ob das File ein Bild ist
+  	if (preg_match("/image\/?png|jpg|jpeg|gif|svg/", $fileType)){
+  		$this->fileService->saveToDatabase($fileName, $fileType, $fileSize, $fileTmpName);
+  		header("Location: /");
+  	}
+  	else{
+  		$this->showUpload();
   	}
   	
-  	$fp = fopen($fileTmpName, 'r');
-  	$content = fread($fp, filesize($fileTmpName));
-  	$content = addslashes($content);
-  	fclose($fp);
-  	
-  	$this->fileService->saveToDatabase($fileName, $fileType, $fileSize, $content);
-  	header("Location: /");
   }
   
-  public function showFiles(){
-  	$this->template->render("images.html.twig");
+  public function showFiles() {
+  	echo $this->template->render("images.html.twig", ["data" => $this->fileService->getIds()]);
   }
- 
+  
+  public function getImage($id) {
+  	$image = $this->fileService->loadFromDatabase($id);
+  	header("Content-Type: " . $image->type);
+  	echo $image->content;
+  
+  }
 }

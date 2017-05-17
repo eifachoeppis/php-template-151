@@ -18,13 +18,19 @@
 				</li>
 				<li>
 					<a href="/upload" title="Upload">Upload</a>
-				</li>	
-				<li class="rightnav">
-					<a href="/login" title="Login">Login</a>
 				</li>
-				<li class="rightnav">
-					<a href="/register" title="Register">Register</a>
-				</li>
+				{% if _SESSION["email"] %}
+					<li class="rightnav">
+						<a href="/logout" title="Logout">Logout</a>
+					</li>
+   			 	{% else %}
+   			 		<li class="rightnav">
+						<a href="/login" title="Login">Login</a>
+					</li>
+					<li class="rightnav">
+						<a href="/register" title="Register">Register</a>
+					</li>
+				{% endif %}
 			</ul>
 		</nav>
 		<main>

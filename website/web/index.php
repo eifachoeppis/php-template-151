@@ -6,6 +6,9 @@ session_start();
 require_once("../vendor/autoload.php");
 $config = parse_ini_file(__DIR__. "/../config.ini", true);
 $factory = new eifachoeppis\Factory($config);
+function isAuthorized(){
+	return array_key_exists("email", $_SESSION);
+}
 
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
@@ -25,6 +28,14 @@ switch($_SERVER["REQUEST_URI"]) {
 			$ctr->login($_POST);
 		}
 		break;
+	case "/logout":
+		if (isAuthorized()){
+			$factory->getLoginController()->showLogout();
+		}else{
+			header("Location: /login");
+		}
+		
+		break;
 	case "/register":
 		$ctr = $factory->getRegisterController();
 		if ($_SERVER["REQUEST_METHOD"] == "GET"){
@@ -34,20 +45,32 @@ switch($_SERVER["REQUEST_URI"]) {
 		}
 		break;
 	case "/upload":
-		$ctr = $factory->getFileController();
-		if ($_SERVER["REQUEST_METHOD"] == "GET"){
-			$ctr->showUpload();
+		if (isAuthorized()){
+			$ctr = $factory->getFileController();
+			if ($_SERVER["REQUEST_METHOD"] == "GET"){
+				$ctr->showUpload();
+			}else{
+				$ctr->upload($_FILES);
+			}
 		}else{
-			$ctr->upload($_FILES);
+			header("Location: /login");
 		}
 		break;
 	case "/images":
-		$factory->getFileController()->showFiles();
+		if (isAuthorized()){
+			$factory->getFileController()->showFiles();
+		}else{
+			header("Location: /login");
+		}
 		break;
 	default:
 		$matches = [];
 		if(preg_match("|^/hello/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
 			$factory->getIndexController()->greet($matches[1]);
+			break;
+		}
+		if(preg_match("|^/showImage/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
+			$factory->getFileController()->getImage($matches[1]);
 			break;
 		}
 		header("Location: /");

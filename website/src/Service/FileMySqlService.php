@@ -10,7 +10,8 @@ class FileMySqlService implements FileService{
 		$this->pdo = $pdo;
 	}
 	
-	public function saveToDatabase($name, $type, $size, $content){
+	public function saveToDatabase($name, $type, $size, $fileTmpName){
+		$content = file_get_contents($fileTmpName);
 		$statement = $this->pdo->prepare("INSERT INTO image (name, type, size, content) VALUES (?, ?, ?, ?)");
 		$statement->bindValue(1, $name);
 		$statement->bindValue(2, $type);
@@ -19,8 +20,16 @@ class FileMySqlService implements FileService{
 		$statement->execute();
 	}
 	
-	public function loadFromDatabase(){
-		$statement = $this->pdo->prepare("SELECT * FROM image");
+	public function loadFromDatabase($id){
+		$statement = $this->pdo->prepare("SELECT type, content FROM image WHERE id=?");
+		$statement->bindValue(1, $id);
+		$statement->execute();
+		$data = array();
+		return $statement->fetchObject();
+	}
+	
+	public function getIds(){
+		$statement = $this->pdo->prepare("SELECT id, name FROM image");
 		$statement->execute();
 		$data = array();
 		while($row = $statement->fetchObject()){

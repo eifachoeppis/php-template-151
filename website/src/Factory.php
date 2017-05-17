@@ -14,6 +14,8 @@
 		}
 		
 		public function getLoginController(){
+			session_destroy();
+			session_start();
 			return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService());
 		}
 		
@@ -32,6 +34,7 @@
 		public function getTwigEngine(){
 			$loader = new \Twig_Loader_Filesystem(__DIR__ . "/../templates/");
 			$twig = new \Twig_Environment($loader);
+			$twig->addGlobal("_SESSION", $_SESSION);
 			return $twig;
 		}
 		

@@ -10,7 +10,8 @@
 		</div>
 		<div>
 			<input type="submit" value="Login"></input>
-		</div>							
+		</div>
+		<input type="hidden" value="{{ _SESSION["csrf"] }}"></input>							
 	</form>		
 {% endblock %}
 		

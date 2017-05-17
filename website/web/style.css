@@ -144,11 +144,6 @@ main img{
 	width: 32%;
 }
 
-main form{
-	width: 60%;
-	margin: 0 auto;
-}
-
 main form input{
 	margin-top: 1em;
 }
@@ -188,9 +183,7 @@ footer p{
 	main{
 		font-size: 0.8em;
 	}
-	main form{
-		width: 100%;
-	}
+
 	main form input{
 		width: 100%;
 		font-size: 2em;
