@@ -20,7 +20,7 @@
 		}
 		
 		public function getRegisterController(){
-			return new Controller\RegisterController($this->getTwigEngine(), $this->getRegisterService());
+			return new Controller\RegisterController($this->getTwigEngine(), $this->getRegisterService(), $this->getMailer());
 		}
 		
 		public function getFileController(){

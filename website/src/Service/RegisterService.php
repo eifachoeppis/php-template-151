@@ -10,6 +10,7 @@ interface RegisterService{
 	 * @return boolean
 	 */
 	public function createUser($username, $password, $passwordConfirm);
+	public function activateUser($guid);
 }
 
 ?>

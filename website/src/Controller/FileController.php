@@ -22,12 +22,16 @@ class FileController
   }
 
   public function showUpload() {
-    echo $this->template->render("upload.html.twig");
+  	$this->generateCsrfToken();
+    echo $this->template->render("upload.html.twig", ["csrf" => $_SESSION["csrf"]]);
   }
   
   
 
   public function upload($data) {
+  	print_r($data);die;
+  	$csrf = $data['csrf'];
+  	print_r($csrf);
   	$fileName = $data['fileToUpload']['name'];
   	$fileType = $data['fileToUpload']['type'];
   	$fileSize = $data['fileToUpload']['size'];
@@ -53,5 +57,9 @@ class FileController
   	header("Content-Type: " . $image->type);
   	echo $image->content;
   
+  }
+  
+  public function generateCsrfToken(){
+  	$_SESSION["csrf"] = base64_encode(random_bytes(32));
   }
 }

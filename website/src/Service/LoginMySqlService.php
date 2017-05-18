@@ -18,8 +18,11 @@ class LoginMySqlService implements LoginService{
 		$statement = $this->pdo->prepare("SELECT * FROM user WHERE email=?");
 		$statement->bindValue(1, $username);
 		$statement->execute();
-		
-		return password_verify($password, $statement->fetchObject()->password);
+		$user = $statement->fetchObject();
+		if ($statement->rowCount() < 1 || $user->activationCode){
+			return false;
+		}
+		return password_verify($password, $user->password);
 	}
 }
 

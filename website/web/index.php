@@ -13,12 +13,6 @@ function isAuthorized(){
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
 		$factory->getIndexController()->homepage();
-		$factory->getMailer()->send(
-				Swift_Message::newInstance("Title")
-				->setFrom(["gibz.module.151@gmail.com" => "M151 Website"])
-				->setTo(["hamburg56@hotmail.com" => "hi"])
-				->setBody("Here is the message itself")
-				);
 		break;
 	case "/login":
 		$ctr = $factory->getLoginController();
@@ -71,6 +65,14 @@ switch($_SERVER["REQUEST_URI"]) {
 		}
 		if(preg_match("|^/showImage/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
 			$factory->getFileController()->getImage($matches[1]);
+			break;
+		}
+		if(preg_match("|^/reset/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
+			$factory->getRegisterController()->showPasswordReset();
+			break;
+		}
+		if(preg_match("|^/activate/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
+			$factory->getRegisterController()->activate($matches[1]);
 			break;
 		}
 		header("Location: /");
