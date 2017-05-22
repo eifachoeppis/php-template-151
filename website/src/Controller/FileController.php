@@ -29,9 +29,6 @@ class FileController
   
 
   public function upload($data) {
-  	print_r($data);die;
-  	$csrf = $data['csrf'];
-  	print_r($csrf);
   	$fileName = $data['fileToUpload']['name'];
   	$fileType = $data['fileToUpload']['type'];
   	$fileSize = $data['fileToUpload']['size'];

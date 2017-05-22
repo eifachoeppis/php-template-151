@@ -27,7 +27,7 @@ class LoginController
   	echo $this->template->render("login.html.twig");
   }
   
-  public function showLogout(){
+  public function logout($csrf){
   	echo $this->template->render("logout.html.twig");
   }
   

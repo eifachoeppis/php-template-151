@@ -140,6 +140,10 @@ main{
 	min-height: 500px;
 }
 
+main h1{
+		margin-bottom: 0.2em;
+}
+
 main img{
 	width: 32%;
 }

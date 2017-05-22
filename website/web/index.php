@@ -22,14 +22,6 @@ switch($_SERVER["REQUEST_URI"]) {
 			$ctr->login($_POST);
 		}
 		break;
-	case "/logout":
-		if (isAuthorized()){
-			$factory->getLoginController()->showLogout();
-		}else{
-			header("Location: /login");
-		}
-		
-		break;
 	case "/register":
 		$ctr = $factory->getRegisterController();
 		if ($_SERVER["REQUEST_METHOD"] == "GET"){
@@ -44,6 +36,9 @@ switch($_SERVER["REQUEST_URI"]) {
 			if ($_SERVER["REQUEST_METHOD"] == "GET"){
 				$ctr->showUpload();
 			}else{
+				var_dump($_POST);
+				var_dump($_SESSION);
+				die;
 				$ctr->upload($_FILES);
 			}
 		}else{
@@ -75,6 +70,12 @@ switch($_SERVER["REQUEST_URI"]) {
 			$factory->getRegisterController()->activate($matches[1]);
 			break;
 		}
+		if (preg_match("|^/logout/(.+)$|", $_SERVER["REQUEST_URI"], $matches))
+		{
+			$factory->getLoginController()->logout();
+			break;
+		}
+		
 		header("Location: /");
 }
 
