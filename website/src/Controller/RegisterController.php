@@ -28,8 +28,17 @@ class RegisterController
   	echo $this->template->render("register.html.twig");
   }
   
-  public function showPasswordReset(){
-  	echo $this->template->render("reset.html.twig", ["guid" => "theGUidfromtheguy"]);
+  public function showPasswordReset($guid){
+  	if ($this->registerService->checkPasswordReset($guid)){
+  		echo $this->template->render("reset.html.twig", ["guid" => $guid]);
+  	}
+  	else{
+  		header("Location: /");
+  	}
+  }
+  
+  public function showResetRequest(){
+  	echo $this->template->render("reset.html.twig");
   }
   
   public function activate($guid){
@@ -61,11 +70,11 @@ class RegisterController
   						'<head></head>' .
   						' <body>' .
   						' <p>Click this link to activate your Account:</p>' .
-		  				'<p><a href=http://'.
+		  				'<p><a href=https://'.
   						$_SERVER["HTTP_HOST"] .
   						'/activate/'.
   						$activationCode .
-  						'>Activate your Account</a></p>'.
+  						'></a></p>'.
 		  				' </body>' .
 		  				'</html>',
 		  				'text/html')

@@ -38,5 +38,3 @@ class FileMySqlService implements FileService{
 		return $data;
 	}
 }
-
-?>

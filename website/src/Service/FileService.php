@@ -7,5 +7,3 @@ interface FileService{
 	public function getIds();
 	public function loadFromDatabase($id);
 }
-
-?>

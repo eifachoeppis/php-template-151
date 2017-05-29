@@ -1,13 +1,13 @@
 <?php
 
 error_reporting(E_ALL);
-session_start();
 
 require_once("../vendor/autoload.php");
 $config = parse_ini_file(__DIR__. "/../config.ini", true);
 $factory = new eifachoeppis\Factory($config);
-function isAuthorized(){
-	return array_key_exists("email", $_SESSION);
+
+function isAuthorized($factory){
+	return $factory->getSession()->has("email");
 }
 
 switch($_SERVER["REQUEST_URI"]) {
@@ -31,22 +31,19 @@ switch($_SERVER["REQUEST_URI"]) {
 		}
 		break;
 	case "/upload":
-		if (isAuthorized()){
+		if (isAuthorized($factory)){
 			$ctr = $factory->getFileController();
 			if ($_SERVER["REQUEST_METHOD"] == "GET"){
 				$ctr->showUpload();
 			}else{
-				var_dump($_POST);
-				var_dump($_SESSION);
-				die;
-				$ctr->upload($_FILES);
+				$ctr->upload($_FILES, $_POST);
 			}
 		}else{
 			header("Location: /login");
 		}
 		break;
 	case "/images":
-		if (isAuthorized()){
+		if (isAuthorized($factory)){
 			$factory->getFileController()->showFiles();
 		}else{
 			header("Location: /login");
@@ -59,11 +56,13 @@ switch($_SERVER["REQUEST_URI"]) {
 			break;
 		}
 		if(preg_match("|^/showImage/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
-			$factory->getFileController()->getImage($matches[1]);
+			if (isAuthorized($factory)){
+				$factory->getFileController()->getImage($matches[1]);
+			}
 			break;
 		}
 		if(preg_match("|^/reset/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
-			$factory->getRegisterController()->showPasswordReset();
+			$factory->getRegisterController()->showPasswordReset($matches[1]);
 			break;
 		}
 		if(preg_match("|^/activate/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
@@ -72,7 +71,7 @@ switch($_SERVER["REQUEST_URI"]) {
 		}
 		if (preg_match("|^/logout/(.+)$|", $_SERVER["REQUEST_URI"], $matches))
 		{
-			$factory->getLoginController()->logout();
+			$factory->getLoginController()->logout($matches[1]);
 			break;
 		}
 		

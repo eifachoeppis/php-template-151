@@ -25,5 +25,3 @@ class LoginMySqlService implements LoginService{
 		return password_verify($password, $user->password);
 	}
 }
-
-?>

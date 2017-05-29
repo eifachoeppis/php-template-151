@@ -4,7 +4,8 @@
 	class Factory{
 		
 		private $config;
-				
+		private $session;		
+		
 		public function __construct(array $config){
 			$this->config = $config;
 		}
@@ -14,9 +15,15 @@
 		}
 		
 		public function getLoginController(){
-			session_destroy();
-			session_start();
-			return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService());
+
+			return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService(), $this->getSession());
+		}
+		
+		public function getSession(){
+			if(!$this->session){
+				$this->session = new Session();
+			}
+			return $this->session;
 		}
 		
 		public function getRegisterController(){
@@ -24,7 +31,7 @@
 		}
 		
 		public function getFileController(){
-			return new Controller\FileController($this->getTwigEngine(), $this->getFileService());
+			return new Controller\FileController($this->getTwigEngine(), $this->getFileService(), $this->getSession());
 		}
 		
 		public function getTemplateEngine(){
@@ -34,7 +41,7 @@
 		public function getTwigEngine(){
 			$loader = new \Twig_Loader_Filesystem(__DIR__ . "/../templates/");
 			$twig = new \Twig_Environment($loader);
-			$twig->addGlobal("_SESSION", $_SESSION);
+			$twig->addGlobal("_SESSION", $this->getSession());
 			return $twig;
 		}
 		

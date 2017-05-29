@@ -4,6 +4,7 @@ namespace eifachoeppis\Controller;
 
 use eifachoeppis\SimpleTemplateEngine;
 use eifachoeppis\Service\LoginService;
+use eifachoeppis\Session;
 
 class LoginController 
 {
@@ -12,23 +13,29 @@ class LoginController
    */
   private $template;
   private $loginService;
+  private $session;
   
   /**
    * @param ihrname\SimpleTemplateEngine
    * @param \PDO
    */
-  public function __construct(\Twig_Environment $template, LoginService $LoginService)
+  public function __construct(\Twig_Environment $template, LoginService $LoginService, Session $session)
   {
      $this->template = $template;
      $this->loginService = $LoginService;
+     $this->session = $session;
   }
   
   public function showLogin(){
+  	session_regenerate_id();
   	echo $this->template->render("login.html.twig");
   }
   
   public function logout($csrf){
-  	echo $this->template->render("logout.html.twig");
+  	if ($_SESSION["csrf"] == $csrf){
+  		unset($_SESSION["email"]);
+  		echo $this->template->render("logout.html.twig");
+  	}
   }
   
   public function login(array $data){
@@ -38,8 +45,7 @@ class LoginController
   	}
   	
   	if($this->loginService->authenticate($data["email"], $data["password"])){
-  		session_destroy();
-  		session_start();
+  		session_regenerate_id();
   		$_SESSION["email"] = $data["email"];
   		header("Location: /");
   	}else{

@@ -7,7 +7,7 @@
     <div>
     	<input type="submit" value="Upload" name="submit">
     </div>
-    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <input type="hidden" name="csrf" value="{{ _SESSION.get("csrf") }}">
 </form>
 {% endblock %}
 		

@@ -47,6 +47,20 @@ class RegisterMySqlService implements RegisterService{
 		return false;
 	}
 	
+	public function checkPasswordReset($guid){
+		$statement = $this->pdo->prepare("SELECT * FROM password_reset WHERE reset_code=?");
+		$statement->bindValue(1, $guid);
+		$statement->execute();
+		if ($statement->rowCount() == 1){
+			return true;
+		}
+		return false;
+	}
+	
+	public function resetPassword($guid, $password){
+		
+	}
+	
 	private function createGuid(){
 		if (function_exists('com_create_guid') === true){
 			return trim(com_create_guid(), '{}');
@@ -57,5 +71,3 @@ class RegisterMySqlService implements RegisterService{
 		return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 	}
 }
-
-?>
