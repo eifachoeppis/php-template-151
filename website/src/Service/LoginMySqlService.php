@@ -2,6 +2,8 @@
 
 namespace eifachoeppis\Service;
 
+use eifachoeppis\Entity\UserEntity;
+
 class LoginMySqlService implements LoginService{
 	
 	private $pdo;
@@ -22,6 +24,10 @@ class LoginMySqlService implements LoginService{
 		if ($statement->rowCount() < 1 || $user->activationCode){
 			return false;
 		}
-		return password_verify($password, $user->password);
+		if (password_verify($password, $user->password)){
+			$id = $user->id;
+			$email = $user->email;
+			return new UserEntity($id, $email);
+		}
 	}
 }

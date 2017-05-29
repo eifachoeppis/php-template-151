@@ -1,14 +1,9 @@
 {% extends "base.html.twig" %}
 {% block main %}
-	{% if _SESSION["email"] %}
+	{% if _SESSION.has("email") %}
 	<h1>Hello</h1>
 	<p>
-		{{_SESSION["email"]}}
-	</p>
-    {% elseif activation %}
-    <h1>Activation</h1>
-	<p>
-		{{ activation }}
+		{{_SESSION.get("email")}}
 	</p>
 	{% else %}
 		<h1>Welcome to the Photogallery</h1>

@@ -3,6 +3,7 @@
 namespace eifachoeppis\Controller;
 
 use eifachoeppis\Service\RegisterService;
+use eifachoeppis;
 
 class RegisterController 
 {
@@ -37,8 +38,56 @@ class RegisterController
   	}
   }
   
+  public function resetPassword($data){
+  	if (!array_key_exists("password", $data) &&
+  		!array_key_exists("passwordConfirm", $data) &&
+  		!array_key_exists("guid", $data)){
+  			header("Location: /");
+  			return;
+  	}
+  	if ($data["password"] != $data["passwordConfirm"]){
+  		echo $this->showPasswordReset($data["guid"]);
+  		return;
+  	}
+  	if ($this->registerService->resetPassword($data["guid"], $data["password"])){
+  		echo $this->template->render("password.html.twig", ["success" => true]);
+  	}else{
+  		echo $this->template->render("password.html.twig");
+  	}
+  }
+  
   public function showResetRequest(){
-  	echo $this->template->render("reset.html.twig");
+  	echo $this->template->render("resetrequest.html.twig");
+  }
+  
+  public function createRequest($data){
+  	if (!array_key_exists("email", $data)){
+  		$this->showResetRequest();
+  		return;
+  	}
+  	if($resetCode = $this->registerService->createResetRequest($data["email"])){
+  		$this->mailer->send(
+  				\Swift_Message::newInstance("Password Reset")
+  				->setFrom(["gibz.module.151@gmail.com" => "Photogallery"])
+  				->setTo($data["email"])
+  				->setBody(
+  						'<html>' .
+  						'<head></head>' .
+  						' <body>' .
+  						' <p>Click this link to reset your Password:</p>' .
+  						'<p><a href=https://'.
+  						$_SERVER["HTTP_HOST"] .
+  						'/reset/'.
+  						$resetCode .
+  						'>Reset your Password</a></p>'.
+  						' </body>' .
+  						'</html>',
+  						'text/html')
+  				);
+  		header("Location: /");
+  	}else{
+  		echo $this->template->render("resetrequest.html.twig", ["email" => $data["email"]]);
+  	}
   }
   
   public function activate($guid){
@@ -74,7 +123,7 @@ class RegisterController
   						$_SERVER["HTTP_HOST"] .
   						'/activate/'.
   						$activationCode .
-  						'></a></p>'.
+  						'>Activate your Account</a></p>'.
 		  				' </body>' .
 		  				'</html>',
 		  				'text/html')

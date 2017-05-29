@@ -15,6 +15,12 @@ class UserEntity{
 		$this->activationCode = com_create_guid();
 	}
 	
+	public function __construct($id, $email){
+		$this->id = $id;
+		$this->email = $email;
+		$this->password = $password;
+	}
+	
 	public function getId(){
 		return $this->id;
 	}

@@ -11,6 +11,7 @@ interface RegisterService{
 	 */
 	public function createUser($username, $password, $passwordConfirm);
 	public function activateUser($guid);
-	public function resetPassword($userId, $password);
+	public function resetPassword($guid, $password);
 	public function checkPasswordReset($guid);
+	public function createResetRequest($email);
 }

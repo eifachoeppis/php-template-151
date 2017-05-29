@@ -34,6 +34,7 @@ class FileController
   public function upload($file, $data) {
   	if (!$this->session->checkValue("csrf", $data["csrf"])){
   		header("Location: /");
+  		return;
   	}
   	$fileName = $file['fileToUpload']['name'];
   	$fileType = $file['fileToUpload']['type'];

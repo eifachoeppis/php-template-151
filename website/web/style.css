@@ -152,6 +152,11 @@ main form input{
 	margin-top: 1em;
 }
 
+main form a{
+	font-size: 0.6em;
+	margin-top: 1em;
+}
+
 main form input[type=email], main form input[type=password] {
 	padding-left: 0.2em;
 }
@@ -192,6 +197,11 @@ footer p{
 		width: 100%;
 		font-size: 2em;
 	}
+	
+	main form a{
+		font-size: 1.5em;
+	}
+	
 	nav{
 		position: relative;
 	}

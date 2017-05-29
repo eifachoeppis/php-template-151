@@ -27,14 +27,17 @@ class LoginController
   }
   
   public function showLogin(){
-  	session_regenerate_id();
+  	$this->session->regenerateId();
   	echo $this->template->render("login.html.twig");
   }
   
   public function logout($csrf){
-  	if ($_SESSION["csrf"] == $csrf){
-  		unset($_SESSION["email"]);
+  	if ($this->session->checkValue("csrf", $csrf)){
+  		$this->session->unset("user");
   		echo $this->template->render("logout.html.twig");
+  	}
+  	else{
+  		header("Location: /");
   	}
   }
   
@@ -44,9 +47,9 @@ class LoginController
   		return;
   	}
   	
-  	if($this->loginService->authenticate($data["email"], $data["password"])){
-  		session_regenerate_id();
-  		$_SESSION["email"] = $data["email"];
+  	if($user = $this->loginService->authenticate($data["email"], $data["password"])){
+  		$this->session->regenerateId();
+  		$this->session->set("user", $user);
   		header("Location: /");
   	}else{
   		echo $this->template->render("login.html.twig", ["email" => $data["email"]]);

@@ -18,6 +18,10 @@ class Session{
 		$_SESSION[$key] = $value;
 	}
 	
+	public function unset($key){
+		unset($_SESSION[$key]);
+	}
+	
 	public function has($key){
 		return array_key_exists($key, $_SESSION);
 	}

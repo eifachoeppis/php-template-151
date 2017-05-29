@@ -42,6 +42,14 @@ switch($_SERVER["REQUEST_URI"]) {
 			header("Location: /login");
 		}
 		break;
+	case "/reset":
+		$ctr = $factory->getRegisterController();
+		if ($_SERVER["REQUEST_METHOD"] == "GET"){
+			$ctr->showResetRequest();
+		}else{
+			$ctr->createRequest($_POST);
+		}
+		break;
 	case "/images":
 		if (isAuthorized($factory)){
 			$factory->getFileController()->showFiles();
@@ -62,7 +70,12 @@ switch($_SERVER["REQUEST_URI"]) {
 			break;
 		}
 		if(preg_match("|^/reset/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
-			$factory->getRegisterController()->showPasswordReset($matches[1]);
+			$ctr = $factory->getRegisterController();
+			if ($_SERVER["REQUEST_METHOD"] == "GET"){
+				$ctr->showPasswordReset($matches[1]);
+			}else{
+				$ctr->resetPassword($_POST);
+			}
 			break;
 		}
 		if(preg_match("|^/activate/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
