@@ -21,7 +21,10 @@
 				</li>
 				{% if _SESSION.has("user") %}
 					<li class="rightnav">
-						<a href="/logout/{{ _SESSION.get("csrf") }}" title="Logout">Logout</a>
+						<form method="POST" action="/logout">
+							<input type="submit" value="Logout"></input>
+							<input type="hidden" name="csrf" value="{{ _SESSION.get("csrf") }}"></input>
+						</form>
 					</li>
    			 	{% else %}
    			 		<li class="rightnav">

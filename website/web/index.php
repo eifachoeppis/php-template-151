@@ -57,6 +57,14 @@ switch($_SERVER["REQUEST_URI"]) {
 			header("Location: /login");
 		}
 		break;
+	case "/logout":
+		if ($_SERVER["REQUEST_METHOD"] == "POST"){
+			$factory->getLoginController()->logout($_POST);
+		}
+		else{
+			header("Location: /");
+		}
+		break;
 	default:
 		$matches = [];
 		if(preg_match("|^/hello/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
@@ -81,13 +89,7 @@ switch($_SERVER["REQUEST_URI"]) {
 		if(preg_match("|^/activate/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
 			$factory->getRegisterController()->activate($matches[1]);
 			break;
-		}
-		if (preg_match("|^/logout/(.+)$|", $_SERVER["REQUEST_URI"], $matches))
-		{
-			$factory->getLoginController()->logout($matches[1]);
-			break;
-		}
-		
+		}		
 		header("Location: /");
 }
 

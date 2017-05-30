@@ -31,8 +31,8 @@ class LoginController
   	echo $this->template->render("login.html.twig");
   }
   
-  public function logout($csrf){
-  	if ($this->session->checkValue("csrf", $csrf)){
+  public function logout($data){
+  	if ($this->session->checkValue("csrf", $data["csrf"])){
   		$this->session->unset("user");
   		echo $this->template->render("logout.html.twig");
   	}

@@ -1,13 +1,13 @@
 {% extends "base.html.twig" %}
 {% block main %}
 	<form method="POST" enctype="multipart/form-data">
-	<div>
-		<input type="file" name="fileToUpload" id="fileToUpload">
-	</div>
-    <div>
-    	<input type="submit" value="Upload" name="submit">
-    </div>
-    <input type="hidden" name="csrf" value="{{ _SESSION.get("csrf") }}">
-</form>
+    	<div>
+    		<input type="file" name="fileToUpload" id="fileToUpload">
+    	</div>
+        <div>
+        	<input type="submit" value="Upload" name="submit">
+        </div>
+        <input type="hidden" name="csrf" value="{{ _SESSION.get("csrf") }}">
+	</form>
 {% endblock %}
 		

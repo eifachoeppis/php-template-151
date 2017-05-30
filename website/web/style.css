@@ -85,6 +85,23 @@ nav ul li:hover > ul {
 	display:block;
 }
 
+nav ul li form input[type=submit]{
+	font-family: 'Open Sans', sans-serif;
+	cursor:pointer;
+	color: #fff;
+	background-color: rgba(0, 115, 230, 0.8);
+	background: transparent;
+	border: none;
+	padding: 10px 20px 15px 20px;
+	font-size: 16px;
+	font-weight: 700;
+		
+}
+
+nav ul li form input[type=submit]:hover{
+	background-color: #999999;
+}
+
 nav ul li a{
 	display: inline-block;
 	color: #fff;

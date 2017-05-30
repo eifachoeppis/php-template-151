@@ -44,7 +44,7 @@ class FileController
   	$fileTmpName = $file['fileToUpload']['tmp_name'];	
   	
   	//Überprüfen ob das File ein Bild ist
-  	if (preg_match("/image\/?png|jpg|jpeg|gif|svg/", $fileType)){
+  	if (preg_match("/image\//", $image->getType())){
   		$this->fileService->saveToDatabase($image, $fileTmpName);
   		header("Location: /");
   	}
