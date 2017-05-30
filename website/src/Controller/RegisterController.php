@@ -97,7 +97,7 @@ class RegisterController
   	}else{
   		$activationtext = "No account found to activate. The activation link expires after 1 hour.";
   	}
-  	echo $this->template->render("index.html.twig", ["activation" => $activationtext]);
+  	echo $this->template->render("activation.html.twig", ["activation" => $activationtext]);
   }
   
   public function register(array $data){

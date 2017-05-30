@@ -95,6 +95,7 @@ nav ul li form input[type=submit]{
 	padding: 10px 20px 15px 20px;
 	font-size: 16px;
 	font-weight: 700;
+	text-align: left;
 		
 }
 
@@ -234,6 +235,10 @@ footer p{
 	}
 	
 	nav > ul > li{
+		width: 100%;
+	}
+	
+	nav ul li form input[type=submit]{
 		width: 100%;
 	}
 	

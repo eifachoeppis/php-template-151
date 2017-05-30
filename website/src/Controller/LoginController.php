@@ -52,7 +52,7 @@ class LoginController
   		$this->session->set("user", $user);
   		header("Location: /");
   	}else{
-  		echo $this->template->render("login.html.twig", ["email" => $user->getEmail()]);
+  		echo $this->template->render("login.html.twig", ["email" => $data["email"]]);
   	}
   }  
 }

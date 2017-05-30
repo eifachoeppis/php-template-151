@@ -14,12 +14,19 @@ class FileMySqlService implements FileService{
 	
 	public function saveToDatabase($image, $fileTmpName){
 		$content = file_get_contents($fileTmpName);
-		$statement = $this->pdo->prepare("INSERT INTO image (name, type, size, content) VALUES (?, ?, ?, ?)");
-		$statement->bindValue(1, $image->getName());
-		$statement->bindValue(2, $image->getType());
-		$statement->bindValue(3, $image->getSize());
-		$statement->bindValue(4, $content);
-		$statement->execute();
+		try{
+			$this->pdo->beginTransaction();
+			$statement = $this->pdo->prepare("INSERT INTO image (name, type, size, content) VALUES (?, ?, ?, ?)");
+			$statement->bindValue(1, $image->getName());
+			$statement->bindValue(2, $image->getType());
+			$statement->bindValue(3, $image->getSize());
+			$statement->bindValue(4, $content);
+			$statement->execute();
+			$this->pdo->commit();
+		}catch (\PDOException $e){
+			$this->pdo->rollBack();
+		}
+		
 	}
 	
 	public function loadFromDatabase($id){

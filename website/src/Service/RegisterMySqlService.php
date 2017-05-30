@@ -17,34 +17,50 @@ class RegisterMySqlService implements RegisterService{
 		if ($password != $passwordConfirm){
 			return false;
 		}
-		
-		$statement = $this->pdo->prepare("SELECT * FROM user WHERE email=?");
-		$statement->bindValue(1, $username);
-		$statement->execute();
-		if ($statement->rowCount() > 0){
+		try{
+			$this->pdo->beginTransaction();
+			$statement = $this->pdo->prepare("SELECT * FROM user WHERE email=?");
+			$statement->bindValue(1, $username);
+			$statement->execute();
+			if ($statement->rowCount() > 0){
+				$this->pdo->commit();
+				return false;
+			}
+			$activationCode = $this->createGuid();
+			$statement = $this->pdo->prepare("INSERT INTO user (email, password, activationCode) VALUES (?, ?, ?)");
+			$statement->bindValue(1, $username);
+			$statement->bindValue(2, password_hash($password, PASSWORD_DEFAULT));
+			$statement->bindValue(3, $activationCode);
+			$statement->execute();
+			$this->pdo->commit();
+			return $activationCode;
+		}catch (\PDOException $e){
+			$this->pdo->rollBack();
 			return false;
-		}
-		$activationCode = $this->createGuid();
-		$statement = $this->pdo->prepare("INSERT INTO user (email, password, activationCode) VALUES (?, ?, ?)");
-		$statement->bindValue(1, $username);
-		$statement->bindValue(2, password_hash($password, PASSWORD_DEFAULT));
-		$statement->bindValue(3, $activationCode);
-		$statement->execute();
-		return $activationCode;
+		}	
 	}
 	
 	public function activateUser($guid){
-		$statement = $this->pdo->prepare("SELECT id FROM user WHERE activationCode=?");
-		$statement->bindValue(1, $guid);
-		$statement->execute();
-		if ($statement->rowCount() == 1){
-			$userId = $statement->fetchObject()->id;
-			$statement = $this->pdo->prepare("UPDATE user SET activationCode='' WHERE id=?");
-			$statement->bindValue(1, $userId);
+		try{
+			$this->pdo->beginTransaction();
+			$statement = $this->pdo->prepare("SELECT id FROM user WHERE activationCode=?");
+			$statement->bindValue(1, $guid);
 			$statement->execute();
-			return true;
+			if ($statement->rowCount() == 1){
+				$userId = $statement->fetchObject()->id;
+				$statement = $this->pdo->prepare("UPDATE user SET activationCode='' WHERE id=?");
+				$statement->bindValue(1, $userId);
+				$statement->execute();
+				$this->pdo->commit();
+				return true;
+			}
+			$this->pdo->commit();
+			return false;
+		}catch (\PDOException $e){
+			$this->pdo->rollBack();
+			return false;
 		}
-		return false;
+		
 	}
 	
 	public function checkPasswordReset($guid){
@@ -60,42 +76,58 @@ class RegisterMySqlService implements RegisterService{
 	}
 	
 	public function resetPassword($guid, $password){
-		$statement = $this->pdo->prepare("SELECT * FROM password_reset WHERE reset_code=?");
-		$statement->bindValue(1, $guid);
-		$statement->execute();
-		if ($statement->rowCount() == 1){
-			$userId = $statement->fetchObject()->user_id;
-			$statement = $this->pdo->prepare("UPDATE user SET password=? WHERE id=?");
-			$statement->bindValue(1, password_hash($password, PASSWORD_DEFAULT));
-			$statement->bindValue(2, $userId);
+		try{
+			$this->pdo->beginTransaction();
+			$statement = $this->pdo->prepare("SELECT * FROM password_reset WHERE reset_code=?");
+			$statement->bindValue(1, $guid);
 			$statement->execute();
-			$statement = $this->pdo->prepare("DELETE FROM password_reset WHERE user_id=?");
-			$statement->bindValue(1, $userId);
-			$statement->execute();
-			return true;
+			if ($statement->rowCount() == 1){
+				$userId = $statement->fetchObject()->user_id;
+				$statement = $this->pdo->prepare("UPDATE user SET password=? WHERE id=?");
+				$statement->bindValue(1, password_hash($password, PASSWORD_DEFAULT));
+				$statement->bindValue(2, $userId);
+				$statement->execute();
+				$statement = $this->pdo->prepare("DELETE FROM password_reset WHERE user_id=?");
+				$statement->bindValue(1, $userId);
+				$statement->execute();
+				$this->pdo->commit();
+				return true;
+			}
+			$this->pdo->commit();
+			return false;
+		}catch (\PDOException $e){
+			$this->pdo->rollBack();
+			return false;
 		}
-		return false;
 	}
 	
 	public function createResetRequest($email){
-		$statement = $this->pdo->prepare("SELECT * FROM user WHERE email=?");
-		$statement->bindValue(1, $email);
-		$statement->execute();
-		if ($statement->rowCount() == 1){
-			$userid = $statement->fetchObject()->id;
-			$statement = $this->pdo->prepare("DELETE FROM password_reset WHERE user_id=?");
-			$statement->bindValue(1, $userid);
+		try{
+			$this->pdo->beginTransaction();
+			$statement = $this->pdo->prepare("SELECT * FROM user WHERE email=?");
+			$statement->bindValue(1, $email);
 			$statement->execute();
-			$resetCode = $this->createGuid();
-			$currentTime = date('Y-m-d H:i:s');
-			$statement = $this->pdo->prepare("INSERT INTO password_reset (user_id, reset_code, reset_time) VALUES (?, ?, ?)");
-			$statement->bindValue(1, $userid);
-			$statement->bindValue(2, $resetCode);
-			$statement->bindValue(3, $currentTime);
-			$statement->execute();
-			return $resetCode;
+			if ($statement->rowCount() == 1){
+				$userid = $statement->fetchObject()->id;
+				$statement = $this->pdo->prepare("DELETE FROM password_reset WHERE user_id=?");
+				$statement->bindValue(1, $userid);
+				$statement->execute();
+				$resetCode = $this->createGuid();
+				$currentTime = date('Y-m-d H:i:s');
+				$statement = $this->pdo->prepare("INSERT INTO password_reset (user_id, reset_code, reset_time) VALUES (?, ?, ?)");
+				$statement->bindValue(1, $userid);
+				$statement->bindValue(2, $resetCode);
+				$statement->bindValue(3, $currentTime);
+				$statement->execute();
+				$this->pdo->commit();
+				return $resetCode;
+			}
+			$this->pdo->commit();
+			return false;
+		}catch (\PDOException $e){
+			$this->pdo->rollBack();
+			return false;
 		}
-		return false;
 	}
 	
 	private function createGuid(){
