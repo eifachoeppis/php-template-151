@@ -4,6 +4,7 @@ namespace eifachoeppis\Controller;
 
 use eifachoeppis\Service\FileService;
 use eifachoeppis\Session;
+use eifachoeppis\Entity\ImageEntity;
 
 class FileController 
 {
@@ -36,14 +37,15 @@ class FileController
   		header("Location: /");
   		return;
   	}
-  	$fileName = $file['fileToUpload']['name'];
-  	$fileType = $file['fileToUpload']['type'];
-  	$fileSize = $file['fileToUpload']['size'];
-  	$fileTmpName = $file['fileToUpload']['tmp_name'];
+  	$image = new ImageEntity();
+  	$image->setName($file['fileToUpload']['name']);
+  	$image->setType($file['fileToUpload']['type']);
+  	$image->setSize($file['fileToUpload']['size']);
+  	$fileTmpName = $file['fileToUpload']['tmp_name'];	
   	
   	//Überprüfen ob das File ein Bild ist
   	if (preg_match("/image\/?png|jpg|jpeg|gif|svg/", $fileType)){
-  		$this->fileService->saveToDatabase($fileName, $fileType, $fileSize, $fileTmpName);
+  		$this->fileService->saveToDatabase($image, $fileTmpName);
   		header("Location: /");
   	}
   	else{
@@ -58,8 +60,8 @@ class FileController
   
   public function getImage($id) {
   	$image = $this->fileService->loadFromDatabase($id);
-  	header("Content-Type: " . $image->type);
-  	echo $image->content;
+  	header("Content-Type: " . $image->getType());
+  	echo $image->getContent();
   
   }
 }

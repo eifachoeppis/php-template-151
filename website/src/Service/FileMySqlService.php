@@ -2,6 +2,8 @@
 
 namespace eifachoeppis\Service;
 
+use eifachoeppis\Entity\ImageEntity;
+
 class FileMySqlService implements FileService{
 	
 	private $pdo;
@@ -10,12 +12,12 @@ class FileMySqlService implements FileService{
 		$this->pdo = $pdo;
 	}
 	
-	public function saveToDatabase($name, $type, $size, $fileTmpName){
+	public function saveToDatabase($image, $fileTmpName){
 		$content = file_get_contents($fileTmpName);
 		$statement = $this->pdo->prepare("INSERT INTO image (name, type, size, content) VALUES (?, ?, ?, ?)");
-		$statement->bindValue(1, $name);
-		$statement->bindValue(2, $type);
-		$statement->bindValue(3, $size);
+		$statement->bindValue(1, $image->getName());
+		$statement->bindValue(2, $image->getType());
+		$statement->bindValue(3, $image->getSize());
 		$statement->bindValue(4, $content);
 		$statement->execute();
 	}
@@ -24,8 +26,15 @@ class FileMySqlService implements FileService{
 		$statement = $this->pdo->prepare("SELECT type, content FROM image WHERE id=?");
 		$statement->bindValue(1, $id);
 		$statement->execute();
-		$data = array();
-		return $statement->fetchObject();
+		if ($statement->rowCount() == 1){
+			$row = $statement->fetchObject();
+			$type = $row->type;
+			$content = $row->content;
+			$image = new ImageEntity();
+			$image->setType($type);
+			$image->setContent($content);
+			return $image;
+		}
 	}
 	
 	public function getIds(){
@@ -33,7 +42,10 @@ class FileMySqlService implements FileService{
 		$statement->execute();
 		$data = array();
 		while($row = $statement->fetchObject()){
-			$data[] = $row;
+			$image = new ImageEntity();
+			$image->setId($row->id);
+			$image->setName($row->name);
+			$data[] = $image;
 		}
 		return $data;
 	}

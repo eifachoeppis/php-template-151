@@ -9,18 +9,10 @@ class UserEntity{
 	private $activationCode;
 	private $passwordResetCode;
 	
-	public function __construct($email, $password){
-		$this->email = $email;
-		$this->password = $password;
-		$this->activationCode = com_create_guid();
+	public function __construct(){
+		
 	}
-	
-	public function __construct($id, $email){
-		$this->id = $id;
-		$this->email = $email;
-		$this->password = $password;
-	}
-	
+		
 	public function getId(){
 		return $this->id;
 	}
@@ -41,6 +33,10 @@ class UserEntity{
 		return $this->passwordResetCode;
 	}
 	
+	public function setId($id){
+		$this->id = $id;
+	}
+	
 	public function setEmail($email){
 		$this->email = $email;
 	}
@@ -49,7 +45,7 @@ class UserEntity{
 		$this->password = $password;
 	}
 	
-	public function setActivationCode($activationCode){
+	public function createActivationCode($activationCode){
 		$this->activationCode = $activationCode;
 	}
 	

@@ -7,7 +7,7 @@ $config = parse_ini_file(__DIR__. "/../config.ini", true);
 $factory = new eifachoeppis\Factory($config);
 
 function isAuthorized($factory){
-	return $factory->getSession()->has("email");
+	return $factory->getSession()->has("user");
 }
 
 switch($_SERVER["REQUEST_URI"]) {

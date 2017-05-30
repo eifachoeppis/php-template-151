@@ -19,7 +19,7 @@
 				<li>
 					<a href="/upload" title="Upload">Upload</a>
 				</li>
-				{% if _SESSION.has("email") %}
+				{% if _SESSION.has("user") %}
 					<li class="rightnav">
 						<a href="/logout/{{ _SESSION.get("csrf") }}" title="Logout">Logout</a>
 					</li>

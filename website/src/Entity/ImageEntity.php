@@ -9,11 +9,8 @@ class ImageEntity{
 	private $size;
 	private $content;
 
-	public function __construct($name, $type, $size, $content){
-		$this->name = $name;
-		$this->type = $type;
-		$this->size = $size;
-		$this->content = $content;
+	public function __construct(){
+		
 	}
 
 	public function getId(){
@@ -34,6 +31,10 @@ class ImageEntity{
 
 	public function getContent(){
 		return $this->content;
+	}
+	
+	public function setId($id){
+		$this->id = $id;
 	}
 
 	public function setName($name){

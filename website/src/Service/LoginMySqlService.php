@@ -27,7 +27,10 @@ class LoginMySqlService implements LoginService{
 		if (password_verify($password, $user->password)){
 			$id = $user->id;
 			$email = $user->email;
-			return new UserEntity($id, $email);
+			$oUser = new UserEntity();
+			$oUser->setEmail($email);
+			$oUser->setId($id);
+			return $oUser;
 		}
 	}
 }
