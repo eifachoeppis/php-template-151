@@ -108,7 +108,6 @@ class RegisterController
   		return;
   	}
   	
-  	
   	if($activationCode = $this->registerService->createUser($data["email"], $data["password"], $data["passwordConfirm"])){
   		$this->mailer->send(
   				\Swift_Message::newInstance("Account Activation")

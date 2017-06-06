@@ -38,13 +38,13 @@ class FileController
   		return;
   	}
   	$image = new ImageEntity();
-  	$image->setName($file['fileToUpload']['name']);
+  	$image->setName($data['imageName']);
   	$image->setType($file['fileToUpload']['type']);
   	$image->setSize($file['fileToUpload']['size']);
   	$fileTmpName = $file['fileToUpload']['tmp_name'];	
-  	
+  	  	
   	//Überprüfen ob das File ein Bild ist
-  	if (preg_match("/image\//", $image->getType())){
+  	if (preg_match("/^[a-zA-Z0-9_]+$/", $image->getName()) && preg_match("/image\/png|jpg|gif|jpeg/", $image->getType())){
   		$this->fileService->saveToDatabase($image, $fileTmpName);
   		header("Location: /");
   	}

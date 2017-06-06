@@ -164,6 +164,8 @@ main h1{
 
 main img{
 	width: 32%;
+	cursor: -webkit-zoom-in;
+	cursor: zoom-in;
 }
 
 main form input{

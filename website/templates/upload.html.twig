@@ -1,6 +1,9 @@
 {% extends "base.html.twig" %}
 {% block main %}
 	<form method="POST" enctype="multipart/form-data">
+		<div>
+			<input type="text" name="imageName" placeholder="Name" required>
+		</div>
     	<div>
     		<input type="file" name="fileToUpload" id="fileToUpload">
     	</div>
