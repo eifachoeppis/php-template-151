@@ -84,7 +84,7 @@ class RegisterController
   						'</html>',
   						'text/html')
   				);
-  		header("Location: /");
+  		echo $this->template->render("resetinfo.html.twig", ["sent" => "An e-mail with a link to reset your password has been sent to your e-mail."]);
   	}else{
   		echo $this->template->render("resetrequest.html.twig", ["email" => $data["email"]]);
   	}
@@ -127,7 +127,7 @@ class RegisterController
 		  				'</html>',
 		  				'text/html')
   				);
-  		header("Location: /");
+  		echo $this->template->render("activation.html.twig", ["sent" => "An e-mail with an activation link has been sent."]);
   	}else{
   		echo $this->template->render("register.html.twig", ["email" => $data["email"]]);
   	}

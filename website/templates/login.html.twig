@@ -12,6 +12,13 @@
 			<a href="/reset" title="Forgot your password?">Forgot your password?</a>
 		</div>
 		<div>
+			{% if email %}
+				<p class="errormessage">
+					Username or Password incorrect.
+				</p>
+			{% endif %}
+		</div>
+		<div>
 			<input type="submit" value="Login"></input>
 		</div>					
 	</form>		

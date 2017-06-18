@@ -46,10 +46,10 @@ class FileController
   	//Überprüfen ob das File ein Bild ist
   	if (preg_match("/^[a-zA-Z0-9_]+$/", $image->getName()) && preg_match("/image\/png|jpg|gif|jpeg/", $image->getType())){
   		$this->fileService->saveToDatabase($image, $fileTmpName);
-  		header("Location: /");
+  		echo $this->template->render("uploadinfo.html.twig");
   	}
   	else{
-  		$this->showUpload();
+  		echo $this->template->render("upload.html.twig", ["error" => "Image must be png, jpg, jpeg or gif. The filename can only contain letters and numbers"]);
   	}
   	
   }

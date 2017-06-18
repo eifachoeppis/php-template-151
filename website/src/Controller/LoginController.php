@@ -5,6 +5,7 @@ namespace eifachoeppis\Controller;
 use eifachoeppis\SimpleTemplateEngine;
 use eifachoeppis\Service\LoginService;
 use eifachoeppis\Session;
+use eifachoeppis\Entity\UserEntity;
 
 class LoginController 
 {
@@ -47,7 +48,11 @@ class LoginController
   		return;
   	}
   	
-  	if($user = $this->loginService->authenticate($data["email"], $data["password"])){
+  	$userEntity = new UserEntity();
+  	$userEntity->setEmail($data["email"]);
+  	$userEntity->setPassword($data["password"]);
+  	
+  	if($user = $this->loginService->authenticate($userEntity)){
   		$this->session->regenerateId();
   		$this->session->set("user", $user);
   		header("Location: /");

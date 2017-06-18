@@ -2,6 +2,8 @@
 
 namespace eifachoeppis\Service;
 
+use eifachoeppis\Entity\UserEntity;
+
 interface LoginService{
 	/**
 	 * 
@@ -9,6 +11,6 @@ interface LoginService{
 	 * @param string $password
 	 * @return boolean
 	 */
-	public function authenticate($username, $password);
+	public function authenticate(UserEntity $user);
 }
 

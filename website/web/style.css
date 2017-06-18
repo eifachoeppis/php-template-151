@@ -162,6 +162,10 @@ main h1{
 		margin-bottom: 0.2em;
 }
 
+main .errormessage{
+	color: red;
+}
+
 main img{
 	width: 32%;
 	cursor: -webkit-zoom-in;
